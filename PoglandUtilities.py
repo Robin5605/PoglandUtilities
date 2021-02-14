@@ -9,7 +9,7 @@ import asyncio
 # Intents.guilds
 
 intents = Intents(members=True, guilds=True, messages=True)
-client = commands.Bot(command_prefix="!u ", intents=intents)
+client = commands.Bot(command_prefix="^", intents=intents)
 
 TOKEN = "REDACTED"
 
