@@ -11,7 +11,7 @@ import asyncio
 intents = Intents(members=True, guilds=True, messages=True)
 client = commands.Bot(command_prefix="^", intents=intents)
 
-TOKEN = "REDACTED"
+TOKEN = "ODA5NTI3MDIzNDUwMDYyOTI4.YCWYyg.-SEbszHSfK_voEzyJrO-cpiHJLE"
 
 @client.event
 async def on_ready():
@@ -52,10 +52,10 @@ async def lock(ctx, time=None):
                 await asyncio.sleep(int(time[0:-1])) #wait specified amount of time
                 await ctx.invoke(unlock) #trigger unlock function
             else:
-                await embedBuilder(ctx, "Valid time not entered. Channel muted until `!u unlock` command is issued.", discord.Color.red())
+                await embedBuilder(ctx, "Valid time not entered. Channel muted until `^unlock` command is issued.", discord.Color.red())
                 await logger(ctx, client, "lock", time) #log the channel lock
         except:
-            await embedBuilder(ctx, "Valid time not entered. Channel muted until `!u unlock` command is issued.", discord.Color.red())
+            await embedBuilder(ctx, "Valid time not entered. Channel muted until `^unlock` command is issued.", discord.Color.red())
             await logger(ctx, client, "lock", time) #log the channel lock
     else:
         await logger(ctx, client, "lock")
@@ -81,10 +81,10 @@ async def log(ctx):
         add("log", channel[0].id)
         await embedBuilder(ctx, f"Log channel successfully set to {channel[0].mention}")
     else:
-        if checkLogChannelExists(client)
+        if checkLogChannelExists(client):
             await embedBuilder(ctx, f"Your log channel is currently {client.get_channel(get('log')).mention}")
         else:
-            await embedBuilder(ctx, f"You don't have a log channel right now. Set one using `!u log #channel`")
+            await embedBuilder(ctx, f"You don't have a log channel right now. Set one using `^log #channel`")
 
 @client.command()
 async def echo(ctx, arg1):
@@ -149,7 +149,7 @@ async def countingChannel(ctx):
         if checkCountingChannelExists(client):
             await embedBuilder(ctx, f"Your counting channel is currently {client.get_channel(get('countingChannel')).mention}")
         else:
-            await embedBuilder(ctx, f"You don't have a counting channel right now. Set one using `!u countingChannel #channel`") 
+            await embedBuilder(ctx, f"You don't have a counting channel right now. Set one using `^countingChannel #channel`") 
 
 @client.event
 async def on_command_error(ctx, error):
