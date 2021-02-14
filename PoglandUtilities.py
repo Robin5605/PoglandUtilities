@@ -11,7 +11,7 @@ import asyncio
 intents = Intents(members=True, guilds=True, messages=True)
 client = commands.Bot(command_prefix="!u ", intents=intents)
 
-TOKEN = "ODA5NTI3MDIzNDUwMDYyOTI4.YCWYyg.-SEbszHSfK_voEzyJrO-cpiHJLE"
+TOKEN = "REDACTED"
 
 @client.event
 async def on_ready():
