@@ -1,15 +1,15 @@
 import discord
 from discord import Intents, MemberCacheFlags
 from discord.ext import commands
-from helper import add, delete, get, checkLogChannelExists, logger, countingLogger, embedBuilder, checkMemberCountExists
+from helper import *
 import asyncio
 
 # INTENTS
 # Intents.members
 # Intents.guilds
 
-intents = Intents(members=True, guilds=True)
-client = commands.Bot(command_prefix="^", intents=intents)
+intents = Intents(members=True, guilds=True, messages=True)
+client = commands.Bot(command_prefix="!u ", intents=intents)
 
 TOKEN = "REDACTED"
 
@@ -62,14 +62,6 @@ async def lock(ctx, time=None):
         
 @client.command()
 @commands.has_permissions(administrator=True)
-async def admin(ctx):
-    try:
-        await ctx.send("You are an admin.")
-    except:
-        await ctx.send("You are not an admin.")
-
-@client.command()
-@commands.has_permissions(administrator=True)
 async def unlock(ctx):
     channel = ctx.channel
     guild = ctx.guild
@@ -89,10 +81,14 @@ async def log(ctx):
         add("log", channel[0].id)
         await embedBuilder(ctx, f"Log channel successfully set to {channel[0].mention}")
     else:
-        if "log" in get():
+        if checkLogChannelExists(client)
             await embedBuilder(ctx, f"Your log channel is currently {client.get_channel(get('log')).mention}")
         else:
             await embedBuilder(ctx, f"You don't have a log channel right now. Set one using `!u log #channel`")
+
+@client.command()
+async def echo(ctx, arg1):
+    await ctx.send(arg1)
 
 @client.event
 async def on_member_join(member):
@@ -108,9 +104,10 @@ async def on_member_remove(member):
         channel = client.get_channel(get("memberCount"))
 
         await channel.edit(name=f"Members:{members}")
+
 @client.event
 async def on_message(message):
-    countingChannel = client.get_channel(806697713399496775)
+    countingChannel = client.get_channel(get("countingChannel"))
     if not message.author == client.user and message.channel == countingChannel: #if message is not sent by bot and is in the counting channel
         try:
             number = int(message.content) #if the message is not an integer it will throw an error
@@ -124,10 +121,11 @@ async def on_message(message):
             await message.delete() #if message is not an integer it will be deleted
             await countingLogger(client, message) #log the incorrect number
     await client.process_commands(message)
+
 @client.command()
 @commands.has_permissions(administrator=True)
 async def override(ctx, number: int):
-    countingChannel = client.get_channel(806697713399496775)
+    countingChannel = client.get_channel(get("countingChannel"))
     if not ctx.channel == countingChannel: #prevents execution of commands in counting channel
         add("counting", number)
         await embedBuilder(ctx, f"Counting will now start from **{number}**.")
@@ -139,6 +137,19 @@ async def on_guild_join(guild):
     add("logChannel", 0)
     add("countingChannel", 0)
     add("counting", 0)
+
+@client.command()
+@commands.has_permissions(administrator=True)
+async def countingChannel(ctx):
+    channel = ctx.message.channel_mentions
+    if len(channel) > 0:
+        add("countingChannel", channel[0].id)
+        await embedBuilder(ctx, f"Log channel successfully set to {channel[0].mention}")
+    else:
+        if checkCountingChannelExists(client):
+            await embedBuilder(ctx, f"Your counting channel is currently {client.get_channel(get('countingChannel')).mention}")
+        else:
+            await embedBuilder(ctx, f"You don't have a counting channel right now. Set one using `!u countingChannel #channel`") 
 
 @client.event
 async def on_command_error(ctx, error):
