@@ -43,6 +43,16 @@ def checkLogChannelExists(client):
     else: #false if the key doesn't exist at all (i.e not been set up yet.)
         return False
 
+def checkCountingChannelExists(client):
+    if "countingChannel" in get(): #check if "log" key exists
+        channel = client.get_channel(get("countingChannel"))
+        if channel is None: #if key exists but channel is not valid (i.e log channel disabled then return false
+            return False
+        else: #key exists and channel is a valid, currently-existing channel
+            return True
+    else: #false if the key doesn't exist at all (i.e not been set up yet.)
+        return False
+
 async def embedBuilder(ctx, text, color=discord.Color.green()):
     embed = discord.Embed(
         title = "",
