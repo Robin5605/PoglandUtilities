@@ -71,8 +71,8 @@ async def logger(ctx, client, command, duration=None):
             time = ""
 
             if duration is None:
-                time = "Until `!u unlock` is issued."
-                await embedBuilder(ctx, "Channel locked until `!u unlock` is issued :lock:")
+                time = "Until `^unlock` is issued."
+                await embedBuilder(ctx, "Channel locked until `^unlock` is issued :lock:")
             else:
                 time = duration[0:-1]
                 if duration[-1] == "s":
