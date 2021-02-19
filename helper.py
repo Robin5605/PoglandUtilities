@@ -1,6 +1,10 @@
 import json
 import discord
 
+def getToken():
+    with open("token.txt", "r") as f:
+        return f.read()
+
 def add(key, value):
     with open("info.json", "r") as f:
         info = json.load(f)
