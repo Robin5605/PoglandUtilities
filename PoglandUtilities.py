@@ -6,12 +6,8 @@ import asyncio
 from typing import Union
 import helpMenu
 
-# INTENTS
-# Intents.members
-# Intents.guilds
 
-intents = Intents(members=True, guilds=True, messages=True)
-client = commands.Bot(command_prefix="^", intents=intents)
+client = commands.Bot(command_prefix="^", intents=Intents.all())
 client.remove_command("help") #remove the default help command
 
 TOKEN = getToken()
