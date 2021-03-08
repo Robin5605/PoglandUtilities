@@ -3,7 +3,7 @@ import discord
 from mcrcon import MCRcon
 
 def getAFK():
-    with MCRcon("158.69.52.209", "rconpass") as rcon: #TODO REDACT PASSWORD
+    with MCRcon("158.69.52.209", "REDACTED") as rcon:
         r = rcon.command("team list afkDis.afk")
     return r.split(": ")[1].split(", ")
 
