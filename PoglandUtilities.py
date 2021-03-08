@@ -173,19 +173,19 @@ async def help(ctx):
             await helpMenuMessage.delete()
             menuOpen = False
         elif reaction.emoji == "◀️":
-            if currentPage == 1: #if the current page is 1 and the user has requested to see the previous page, set the current page to the last page
-                currentPage = totalPages
+            if currentPage == 0: #if the current page is 1 and the user has requested to see the previous page, set the current page to the last page
+                currentPage = totalPages - 1
 
-            elif currentPage <= totalPages: #If the current page is less or equal to the total pages, then decrement the current page value
+            elif currentPage < totalPages: #If the current page is less than  the total pages, then decrement the current page value
                 currentPage -= 1
 
             await reaction.remove(user)
             await helpMenuMessage.edit(embed=helpMenu.getHelpPages()[currentPage])
         elif reaction.emoji == "▶️":
-            if currentPage == totalPages: #if the current page is the total pages and the user has requested to see the next page, set the current page to the first page
+            if currentPage == totalPages - 1: #if the current page is the last page and the user has requested to see the next page, set the current page to the first page
                 currentPage = 1
 
-            elif currentPage >= 1: #If the current page is greater or equal to 1, then increment the current page value
+            elif currentPage >= 0: #If the current page is greater or equal to 0, then increment the current page value
                 currentPage += 1
 
             await reaction.remove(user)
