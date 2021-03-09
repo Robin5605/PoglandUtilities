@@ -11,7 +11,7 @@ import requests
 # Intents.members
 # Intents.guilds
 
-client = commands.Bot(command_prefix="!", intents=Intents.all())
+client = commands.Bot(command_prefix="", intents=Intents.all())
 client.remove_command("help") #remove the default help command
 
 TOKEN = getToken()
